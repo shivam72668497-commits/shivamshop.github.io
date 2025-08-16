@@ -1,0 +1,108 @@
+:root{
+  --bg:#071021;
+  --card:#071427;
+  --muted:#9aa6b2;
+  --accent:#06b6d4;
+  --accent-2:#06b6d4;
+  --white:#ffffff;
+  --glass: rgba(255,255,255,0.03);
+  --radius:12px;
+  --max-width:1200px;
+  --shadow: 0 10px 30px rgba(2,6,23,0.6);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background:linear-gradient(180deg,#071021 0%,#041028 100%);
+  color:var(--white);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.45;
+}
+
+/* layout */
+.container{max-width:var(--max-width);margin:0 auto;padding:1rem}
+.site-header{position:sticky;top:0;background:linear-gradient(180deg,rgba(2,6,23,0.6),transparent);backdrop-filter:blur(6px);z-index:60;padding:.8rem 0;border-bottom:1px solid rgba(255,255,255,0.02)}
+.header-grid{display:flex;gap:1rem;align-items:center;justify-content:space-between}
+.brand{font-weight:700;color:var(--white);text-decoration:none;font-size:1.05rem}
+
+/* search & actions */
+.search{display:flex;gap:.5rem;align-items:center;flex:1;max-width:520px;margin:0 1rem}
+.search input{flex:1;padding:.55rem .8rem;border-radius:10px;border:none;background:var(--glass);color:var(--white);outline:2px solid transparent}
+.btn{background:var(--glass);border:1px solid rgba(255,255,255,0.04);color:var(--white);padding:.5rem .75rem;border-radius:10px;cursor:pointer}
+.btn.small{padding:.32rem .45rem;font-size:.86rem}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;color:#052;box-shadow:0 8px 28px rgba(6,182,212,0.12)}
+.actions{display:flex;gap:.5rem;align-items:center}
+
+/* hero */
+.hero{display:flex;gap:1rem;align-items:center;justify-content:space-between;margin:1rem 0;padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent)}
+.hero-left{max-width:48%}
+.hero-featured{position:relative;width:48%}
+.featured-wrapper{display:flex;gap:12px;overflow:hidden;border-radius:12px;min-height:200px}
+.featured-slide{min-width:100%;flex:0 0 100%;display:block;border-radius:12px;overflow:hidden;position:relative;transition:transform .6s cubic-bezier(.2,.9,.2,1)}
+.featured-slide img{width:100%;height:220px;object-fit:cover;display:block}
+.featured-caption{position:absolute;left:1rem;bottom:1rem;background:rgba(0,0,0,0.45);padding:.6rem;border-radius:8px}
+.featured-controls{position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:.4rem}
+
+/* catalog split layout */
+.catalog{display:grid;grid-template-columns:260px 1fr;gap:1rem}
+.filters{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+.filters label{display:block;margin-bottom:.6rem}
+.filters input, .filters select{width:100%;padding:.45rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--white)}
+
+.products-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.6rem}
+.products-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+
+/* product card */
+.card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;min-height:280px;box-shadow:var(--shadow)}
+.media{height:160px;border-radius:8px;overflow:hidden;background:#0b1220;display:flex;align-items:center;justify-content:center}
+.media img{width:100%;height:100%;object-fit:cover}
+.card h3{margin:.6rem 0 .25rem 0;font-size:1rem}
+.meta{display:flex;justify-content:space-between;align-items:center}
+.price{font-weight:800;color:var(--accent-2)}
+.compare{color:var(--muted);text-decoration:line-through;font-size:.88rem}
+.actions{display:flex;gap:.5rem;margin-top:auto;align-items:center}
+
+/* cart sidebar */
+.cart-sidebar{position:fixed;right:1rem;top:6.2rem;width:380px;max-width:calc(100% - 2rem);height:72vh;background:linear-gradient(180deg,#04111a,#02101a);border-radius:12px;padding:1rem;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow);display:flex;flex-direction:column;transform:translateX(110%);transition:transform .24s;z-index:60}
+.cart-sidebar.open{transform:translateX(0)}
+.cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem}
+.cart-items{list-style:none;padding:0;margin:0;overflow:auto;max-height:38vh}
+.cart-item{display:flex;gap:.6rem;align-items:center;padding:.45rem;border-radius:8px;margin-bottom:.45rem;background:linear-gradient(180deg,transparent,rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
+.cart-item img{width:64px;height:64px;object-fit:cover;border-radius:8px}
+.qty{display:flex;gap:.25rem;align-items:center}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;padding:1rem;z-index:80;opacity:0;pointer-events:none;transition:opacity .18s}
+.modal[aria-hidden="false"]{opacity:1;pointer-events:auto}
+.modal-content{background:linear-gradient(180deg,#02111a,#031222);padding:1rem;border-radius:12px;max-width:900px;width:100%;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow)}
+.modal-close{position:absolute;right:1rem;top:1rem}
+
+/* checkout */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.checkout-summary{background:rgba(255,255,255,0.02);padding:.6rem;border-radius:8px;margin:0.6rem 0}
+.form-actions{display:flex;gap:.6rem;justify-content:flex-end}
+
+/* footer */
+.site-footer{padding:1rem 0;margin-top:1.5rem;color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+.visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+
+/* responsive */
+@media (max-width:900px){
+  .catalog{grid-template-columns:1fr}
+  .filters{order:2}
+  .products{order:1}
+  .products-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-left{max-width:100%}
+  .hero-featured{width:100%}
+}
+@media (max-width:560px){
+  .products-grid{grid-template-columns:1fr}
+  .header-grid{flex-direction:column;align-items:stretch}
+  .search{max-width:none}
+}
