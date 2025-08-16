@@ -1,0 +1,76 @@
+{
+  "products": [
+    {
+      "id": "p1",
+      "title": "Minimal Leather Sneakers",
+      "slug": "minimal-leather-sneakers",
+      "price": 3499,
+      "oldPrice": 4999,
+      "rating": 4.6,
+      "category": "Footwear",
+      "tags": ["new","popular"],
+      "image": "https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1600&auto=format&fit=crop",
+      "description": "Handcrafted minimal leather sneakers designed for everyday comfort."
+    },
+    {
+      "id": "p2",
+      "title": "Classic Aviator Sunglasses",
+      "slug": "classic-aviator-sunglasses",
+      "price": 1299,
+      "oldPrice": 1999,
+      "rating": 4.4,
+      "category": "Accessories",
+      "tags": ["featured"],
+      "image": "https://images.unsplash.com/photo-1510070009289-b5bc34383727?q=80&w=1600&auto=format&fit=crop",
+      "description": "Timeless aviator sunglasses with UV400 protection."
+    },
+    {
+      "id": "p3",
+      "title": "Performance Running Tee",
+      "slug": "performance-running-tee",
+      "price": 899,
+      "oldPrice": 0,
+      "rating": 4.2,
+      "category": "Apparel",
+      "tags": ["sale"],
+      "image": "https://images.unsplash.com/photo-1520975923149-ae0ccf7f1789?q=80&w=1600&auto=format&fit=crop",
+      "description": "Breathable performance tee for training and daily wear."
+    },
+    {
+      "id": "p4",
+      "title": "Everyday Backpack",
+      "slug": "everyday-backpack",
+      "price": 2199,
+      "oldPrice": 2799,
+      "rating": 4.7,
+      "category": "Bags",
+      "tags": ["popular","featured"],
+      "image": "https://images.unsplash.com/photo-1514474959185-2806f4d3b226?q=80&w=1600&auto=format&fit=crop",
+      "description": "Durable backpack with dedicated laptop sleeve and organized pockets."
+    },
+    {
+      "id": "p5",
+      "title": "Wireless Earbuds Pro",
+      "slug": "wireless-earbuds-pro",
+      "price": 3999,
+      "oldPrice": 4999,
+      "rating": 4.5,
+      "category": "Electronics",
+      "tags": ["new"],
+      "image": "https://images.unsplash.com/photo-1518444029137-74f00b7c1c16?q=80&w=1600&auto=format&fit=crop",
+      "description": "Noise-cancelling wireless earbuds with long battery life."
+    },
+    {
+      "id": "p6",
+      "title": "Organic Cotton Hoodie",
+      "slug": "organic-cotton-hoodie",
+      "price": 1799,
+      "oldPrice": 0,
+      "rating": 4.1,
+      "category": "Apparel",
+      "tags": ["eco"],
+      "image": "https://images.unsplash.com/photo-1602810317543-27c28a4a0fdb?q=80&w=1600&auto=format&fit=crop",
+      "description": "Soft organic cotton hoodie — comfortable, warm, and responsible."
+    }
+  ]
+}
