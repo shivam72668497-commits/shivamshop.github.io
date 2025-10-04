@@ -2,1162 +2,392 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechGadget | Modern Electronics Store</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Make viewport responsive and prevent scaling -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>3D Car Scene - Mobile Controls</title>
     <style>
-        :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary: #f72585;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-            --border-radius: 12px;
-            --box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #fafafa;
-            color: var(--dark);
-            line-height: 1.6;
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbars */
+            background-color: #a0d7e6; /* Light sky blue background */
+            font-family: sans-serif; /* Added for UI text */
+            /* Prevent default touch behaviors like pull-to-refresh or selection */
+            overscroll-behavior: none;
+            touch-action: none; /* For pointer events, might help on some devices */
         }
-
-        /* Header Styles */
-        header {
-            background: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        canvas {
+            display: block; /* Remove annoying space below canvas */
         }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            font-size: 1.8rem;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .logo i {
-            margin-right: 0.5rem;
-            color: var(--secondary);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin: 0 1rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-            padding: 0.5rem 0;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a::after {
-            content: '';
+        #loading-screen {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: var(--primary);
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .header-icons {
-            display: flex;
-            align-items: center;
-        }
-
-        .icon-btn {
-            background: transparent;
-            border: none;
-            font-size: 1.2rem;
-            margin-left: 1.2rem;
-            cursor: pointer;
-            color: var(--dark);
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .icon-btn:hover {
-            color: var(--primary);
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--secondary);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: bold;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: transparent;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
-            color: white;
-            padding: 5rem 2rem;
-            text-align: center;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            animation: fadeInDown 1s ease;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            animation: fadeInUp 1s ease;
-        }
-
-        .btn {
-            display: inline-block;
-            background: var(--secondary);
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid white;
-            margin-left: 1rem;
-        }
-
-        .btn-outline:hover {
-            background: white;
-            color: var(--primary);
-        }
-
-        /* Products Section */
-        .container {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.5rem;
-            color: var(--dark);
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--secondary);
-            border-radius: 2px;
-        }
-
-        /* Search and Filter */
-        .search-filter {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .search-box {
-            flex: 1;
-            max-width: 400px;
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 0.8rem 1rem 0.8rem 3rem;
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .search-box input:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-        }
-
-        .filter-options {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: white;
-            border: 1px solid var(--light-gray);
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        /* Product Grid */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 2rem;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--box-shadow);
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-        }
-
-        .product-badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: var(--secondary);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            z-index: 10;
-        }
-
-        .product-image {
-            height: 200px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--light);
-        }
-
-        .product-image img {
-            max-width: 80%;
-            max-height: 80%;
-            transition: var(--transition);
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
-        }
-
-        .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-category {
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.8rem;
-            color: var(--dark);
-        }
-
-        .product-price {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 1rem;
-        }
-
-        .price {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
-
-        .add-to-cart {
-            background: var(--primary);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .add-to-cart:hover {
-            background: var(--primary-dark);
-            transform: rotate(90deg);
-        }
-
-        /* Shopping Cart */
-        .cart-modal {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 380px;
-            height: 100vh;
-            background: white;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-            z-index: 1000;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cart-modal.active {
-            right: 0;
-        }
-
-        .cart-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--light-gray);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-header h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .close-cart {
-            background: transparent;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-            transition: var(--transition);
-        }
-
-        .close-cart:hover {
-            color: var(--secondary);
-        }
-
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
-        }
-
-        .cart-item {
-            display: flex;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--light-gray);
-            animation: slideInRight 0.3s ease;
-        }
-
-        .cart-item-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: var(--light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-        }
-
-        .cart-item-img img {
-            max-width: 70%;
-            max-height: 70%;
-        }
-
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-title {
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-        }
-
-        .cart-item-price {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-        }
-
-        .quantity-btn {
-            width: 28px;
-            height: 28px;
-            background: var(--light-gray);
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .item-quantity {
-            margin: 0 0.8rem;
-            font-weight: 600;
-        }
-
-        .remove-item {
-            margin-left: auto;
-            background: transparent;
-            border: none;
-            color: var(--gray);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .remove-item:hover {
-            color: var(--secondary);
-        }
-
-        .cart-footer {
-            padding: 1.5rem;
-            border-top: 1px solid var(--light-gray);
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-            font-size: 1.2rem;
-        }
-
-        .total-price {
-            color: var(--primary);
-        }
-
-        .checkout-btn {
-            width: 100%;
-            padding: 1rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .checkout-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
+            background-color: #000;
             color: white;
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .footer-column h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.8rem;
-        }
-
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: var(--secondary);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links a {
-            color: #adb5bd;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: white;
-            padding-left: 5px;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 3rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin-top: 3rem;
-            color: #adb5bd;
-            font-size: 0.9rem;
-        }
-
-        .social-links {
             display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            color: white;
-            transition: var(--transition);
+            align-items: center;
+            font-size: 2em;
+            z-index: 100;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        #loading-screen.hidden {
+             opacity: 0;
+             pointer-events: none; /* Disable interaction after fading */
+        }
+        /* --- UI Elements --- */
+        #ui-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white; /* White text */
+            text-shadow: 1px 1px 3px black; /* Black shadow for readability */
+            z-index: 50;
+            font-size: 1.5em; /* Slightly larger font */
+        }
+        #score {
+            margin-bottom: 5px;
+        }
+        #game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff4444; /* Bright red */
+            font-size: 4em; /* Large text */
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 2px 2px 5px black; /* Stronger shadow */
+            display: none; /* Hidden initially */
+            z-index: 101; /* Above everything else */
+            pointer-events: none; /* Don't block clicks if needed later */
         }
 
-        .social-links a:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
+        /* --- Mobile Control Buttons --- */
+        .control-button {
+            position: absolute;
+            bottom: 20px; /* Position from bottom */
+            width: 80px; /* Button width */
+            height: 80px; /* Button height */
+            background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent white */
+            border: 2px solid rgba(0, 0, 0, 0.5); /* Darker border */
+            border-radius: 50%; /* Circular buttons */
+            z-index: 60; /* Above canvas, below game over */
+            display: flex; /* For centering arrow inside */
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5em; /* Arrow size */
+            color: rgba(0, 0, 0, 0.7); /* Arrow color */
+            cursor: pointer; /* Indicate clickable */
+            /* Prevent text selection on tap */
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+            /* Prevent iOS tap highlight */
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Style for when button is pressed */
+        .control-button:active {
+            background-color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        #left-button {
+            left: 20px; /* Position left button */
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        #right-button {
+            right: 20px; /* Position right button */
         }
+        /* --- End Mobile Control Buttons --- */
 
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .search-filter {
-                flex-direction: column;
-            }
-            
-            .search-box {
-                max-width: 100%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero {
-                padding: 3rem 1.5rem;
-            }
-            
-            .hero h1 {
-                font-size: 2.3rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .cart-modal {
-                width: 320px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .header-container {
-                padding: 1rem;
-            }
-            
-            .logo {
-                font-size: 1.5rem;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .btn {
-                padding: 0.7rem 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .cart-modal {
-                width: 100%;
-                max-width: 320px;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-container">
-            <a href="#" class="logo">
-                <i class="fas fa-laptop-code"></i>
-                TechGadget
-            </a>
-            
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Deals</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-            
-            <div class="header-icons">
-                <button class="icon-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-                <button class="icon-btn" id="cart-btn">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
-                </button>
-                <button class="icon-btn">
-                    <i class="fas fa-user"></i>
-                </button>
-                <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </header>
+    <div id="loading-screen">Loading...</div>
+    <div id="container"></div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Upgrade Your Tech Experience</h1>
-            <p>Discover the latest gadgets and electronics at unbeatable prices. Free shipping on all orders over $99.</p>
-            <div>
-                <a href="#products" class="btn">Shop Now</a>
-                <a href="#products" class="btn btn-outline">View Deals</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="container" id="products">
-        <h2 class="section-title">Featured Products</h2>
-        
-        <!-- Search and Filter -->
-        <div class="search-filter">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="search-input" placeholder="Search products...">
-            </div>
-            
-            <div class="filter-options">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="laptops">Laptops</button>
-                <button class="filter-btn" data-filter="phones">Phones</button>
-                <button class="filter-btn" data-filter="tablets">Tablets</button>
-                <button class="filter-btn" data-filter="accessories">Accessories</button>
-            </div>
-        </div>
-        
-        <!-- Products Grid -->
-        <div class="products-grid" id="products-grid">
-            <!-- Products will be dynamically inserted here -->
-        </div>
-    </section>
-
-    <!-- Shopping Cart -->
-    <div class="cart-modal" id="cart-modal">
-        <div class="cart-header">
-            <h3>Your Cart</h3>
-            <button class="close-cart" id="close-cart">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="cart-items" id="cart-items">
-            <!-- Cart items will be dynamically inserted here -->
-        </div>
-        
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span class="total-price" id="cart-total">$0.00</span>
-            </div>
-            <button class="checkout-btn">Proceed to Checkout</button>
-        </div>
+    <!-- UI Elements -->
+    <div id="ui-container">
+        <div id="score">Score: 0</div>
     </div>
-    
-    <div class="overlay" id="overlay"></div>
+    <div id="game-over">GAME OVER!</div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>TechGadget</h3>
-                <p>Your one-stop shop for the latest electronics and gadgets at competitive prices.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Categories</a></li>
-                    <li><a href="#">Deals</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Customer Service</h3>
-                <ul class="footer-links">
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Shipping Policy</a></li>
-                    <li><a href="#">Returns & Refunds</a></li>
-                    <li><a href="#">Track Order</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Newsletter</h3>
-                <p>Subscribe to get special offers, free giveaways, and new product updates.</p>
-                <div class="search-box" style="margin-top: 1rem;">
-                    <input type="email" placeholder="Your email address">
-                    <button class="btn" style="position: absolute; right: 5px; top: 5px; padding: 0.4rem 1rem;">Join</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2023 TechGadget. All rights reserved.</p>
-        </div>
-    </footer>
+    <!-- Mobile Control Buttons -->
+    <div id="left-button" class="control-button">◀</div> <!-- Left Arrow Unicode -->
+    <div id="right-button" class="control-button">▶</div> <!-- Right Arrow Unicode -->
 
-    <script>
-        // Sample product data
-        const products = [
-            { id: 1, name: "MacBook Pro 16\"", price: 2399, category: "laptops", image: "macbook", badge: "New" },
-            { id: 2, name: "iPhone 14 Pro", price: 999, category: "phones", image: "iphone", badge: "Hot" },
-            { id: 3, name: "Samsung Galaxy Tab S8", price: 699, category: "tablets", image: "tablet", badge: "" },
-            { id: 4, name: "Sony WH-1000XM5", price: 399, category: "accessories", image: "headphones", badge: "Sale" },
-            { id: 5, name: "Dell XPS 15", price: 1899, category: "laptops", image: "laptop", badge: "" },
-            { id: 6, name: "Samsung Galaxy S23", price: 799, category: "phones", image: "samsung", badge: "New" },
-            { id: 7, name: "Apple Watch Series 8", price: 399, category: "accessories", image: "watch", badge: "" },
-            { id: 8, name: "iPad Pro 12.9\"", price: 1099, category: "tablets", image: "ipad", badge: "Hot" }
-        ];
 
-        // DOM Elements
-        const productsGrid = document.getElementById('products-grid');
-        const cartItems = document.getElementById('cart-items');
-        const cartTotal = document.getElementById('cart-total');
-        const cartCount = document.querySelector('.cart-count');
-        const cartBtn = document.getElementById('cart-btn');
-        const closeCart = document.getElementById('close-cart');
-        const cartModal = document.getElementById('cart-modal');
-        const overlay = document.getElementById('overlay');
-        const searchInput = document.getElementById('search-input');
-        const filterBtns = document.querySelectorAll('.filter-btn');
-
-        // Initialize cart
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        // Render products
-        function renderProducts(productsToRender) {
-            productsGrid.innerHTML = '';
-            
-            productsToRender.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card fade-in';
-                productCard.innerHTML = `
-                    ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-                    <div class="product-image">
-                        <img src="https://via.placeholder.com/200x200?text=${product.image.replace(' ', '+')}" alt="${product.name}">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</div>
-                        <h3 class="product-title">${product.name}</h3>
-                        <div class="product-price">
-                            <div class="price">$${product.price.toFixed(2)}</div>
-                            <button class="add-to-cart" data-id="${product.id}">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                productsGrid.appendChild(productCard);
-            });
-            
-            // Add event listeners to add-to-cart buttons
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const id = parseInt(e.target.closest('.add-to-cart').dataset.id);
-                    addToCart(id);
-                    
-                    // Add animation effect
-                    const cartIcon = document.querySelector('.fa-shopping-cart');
-                    cartIcon.style.transform = 'scale(1.3)';
-                    setTimeout(() => {
-                        cartIcon.style.transform = 'scale(1)';
-                    }, 300);
-                });
-            });
-        }
-
-        // Add to cart function
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            const existingItem = cart.find(item => item.id === productId);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image: product.image,
-                    quantity: 1
-                });
+    <!-- Import Maps -->
+     <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.164.1/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.164.1/examples/jsm/"
             }
-            
-            updateCart();
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+        // import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; // Optional
+
+        let scene, camera, renderer, carModel, enemyCar;
+        let ambientLight, directionalLight;
+        let road, roadLines = [], kerbs = [];
+        let buildings = [], streetLights = [], trafficLights = [];
+        const roadWidth = 10;
+        const roadLength = 200;
+        const buildingSpacing = 15;
+        const lightSpacing = 30;
+        const numBuildings = Math.floor(roadLength / buildingSpacing);
+        const numLights = Math.floor(roadLength / lightSpacing);
+        const driveSpeed = 0.5; // Scenery scroll speed
+
+        const enemyCarSpeed = 0.4; // Independent enemy speed
+
+        const kerbHeight = 0.2;
+        const kerbWidth = 0.3;
+
+        // --- Game State ---
+        let moveLeft = false;
+        let moveRight = false;
+        const carMoveSpeed = 0.15;
+        let carBaseY = 0;
+        let score = 0;
+        let isGameOver = false;
+        // --- End Game State ---
+
+        // --- Points ---
+        const points = [];
+        const numPoints = 15;
+        const pointValue = 10;
+        let pointGeometry, pointMaterial;
+        const pointRadius = 0.3;
+        // --- End Points ---
+
+        // --- UI Elements References ---
+        const loadingScreen = document.getElementById('loading-screen');
+        const scoreElement = document.getElementById('score');
+        const gameOverElement = document.getElementById('game-over');
+        // --- End UI Refs ---
+
+        // --- Bounding Boxes ---
+        let playerBox = new THREE.Box3();
+        let enemyBox = new THREE.Box3();
+        let pointBox = new THREE.Box3();
+        // --- End Bounding Boxes ---
+
+        const loadingManager = new THREE.LoadingManager();
+
+        // Loading Manager Callbacks
+        loadingManager.onLoad = () => { console.log("All resources loaded!"); loadingScreen.classList.add('hidden'); setTimeout(() => { if (loadingScreen) loadingScreen.style.display = 'none'; }, 600); };
+        loadingManager.onError = (url) => { console.error(`There was an error loading ${url}`); loadingScreen.textContent = `Error loading: ${url}. Check console.`; loadingScreen.classList.remove('hidden'); loadingScreen.style.opacity = 1; };
+        loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => { console.log(`Loading file: ${url} (${itemsLoaded}/${itemsTotal})`); const progress = Math.round((itemsLoaded / itemsTotal) * 100); loadingScreen.textContent = `Loading ${progress}%...`; };
+
+
+        init();
+        setupControls(); // Set up both keyboard and touch controls
+        animate();
+
+        function init() {
+            // --- Basic Setup ---
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xa0d7e6);
+            scene.fog = new THREE.Fog(0xa0d7e6, roadLength * 0.4, roadLength * 0.9);
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.0;
+            document.getElementById('container').appendChild(renderer.domElement);
+
+            // --- Lights ---
+            ambientLight = new THREE.AmbientLight(0xffffff, 0.6); scene.add(ambientLight);
+            directionalLight = new THREE.DirectionalLight(0xffffff, 1.5); directionalLight.position.set(50, 100, 50); directionalLight.castShadow = true; directionalLight.shadow.mapSize.width = 2048; directionalLight.shadow.mapSize.height = 2048; directionalLight.shadow.camera.near = 0.5; directionalLight.shadow.camera.far = 500; directionalLight.shadow.camera.left = -roadLength / 2; directionalLight.shadow.camera.right = roadLength / 2; directionalLight.shadow.camera.top = roadLength / 2; directionalLight.shadow.camera.bottom = -roadLength / 2; scene.add(directionalLight);
+
+            // --- Ground, Road, Lines, Kerbs ---
+            const groundGeo = new THREE.PlaneGeometry(roadLength * 1.5, roadLength); const groundMat = new THREE.MeshStandardMaterial({ color: 0x55aa55, side: THREE.DoubleSide }); const ground = new THREE.Mesh(groundGeo, groundMat); ground.rotation.x = -Math.PI / 2; ground.position.y = -0.05; ground.receiveShadow = true; scene.add(ground);
+            const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength); const roadMat = new THREE.MeshStandardMaterial({ color: 0x555555, side: THREE.DoubleSide }); road = new THREE.Mesh(roadGeo, roadMat); road.rotation.x = -Math.PI / 2; road.position.y = 0.0; road.receiveShadow = true; scene.add(road);
+            const lineLength = 4; const lineGap = 4; const numLines = Math.floor(roadLength / (lineLength + lineGap)); const lineGeo = new THREE.PlaneGeometry(0.3, lineLength); const lineMat = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+            for (let i = 0; i < numLines; i++) { const line = new THREE.Mesh(lineGeo, lineMat); line.rotation.x = -Math.PI / 2; line.position.y = 0.005; line.position.z = (roadLength / 2) - (lineLength / 2) - i * (lineLength + lineGap); line.receiveShadow = true; roadLines.push(line); scene.add(line); }
+            function createKerbTexture() { const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.width = 64; canvas.height = 16; const stripeWidth = 8; const colors = ['#ff0000', '#ffffff']; for (let i = 0; i < canvas.width / stripeWidth; i++) { ctx.fillStyle = colors[i % 2]; ctx.fillRect(i * stripeWidth, 0, stripeWidth, canvas.height); } return new THREE.CanvasTexture(canvas); }
+            const kerbTexture = createKerbTexture(); kerbTexture.wrapS = THREE.RepeatWrapping; kerbTexture.wrapT = THREE.ClampToEdgeWrapping; kerbTexture.repeat.set(roadLength / 4, 1);
+            const kerbGeo = new THREE.BoxGeometry(kerbWidth, kerbHeight, roadLength); const kerbMat = new THREE.MeshStandardMaterial({ map: kerbTexture });
+            const kerbLeft = new THREE.Mesh(kerbGeo, kerbMat); kerbLeft.position.set(-(roadWidth / 2) - (kerbWidth / 2), kerbHeight / 2, 0); kerbLeft.castShadow = true; kerbLeft.receiveShadow = true; scene.add(kerbLeft); kerbs.push(kerbLeft);
+            const kerbRight = new THREE.Mesh(kerbGeo, kerbMat); kerbRight.position.set((roadWidth / 2) + (kerbWidth / 2), kerbHeight / 2, 0); kerbRight.castShadow = true; kerbRight.receiveShadow = true; scene.add(kerbRight); kerbs.push(kerbRight);
+
+            // --- Buildings, Street Lights, Traffic Lights ---
+            function createBuilding() { const height = Math.random() * 30 + 10; const width = Math.random() * 8 + 4; const depth = Math.random() * 8 + 4; const buildingGeo = new THREE.BoxGeometry(width, height, depth); const buildingMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(Math.random() * 0.8 + 0.1, Math.random() * 0.8 + 0.1, Math.random() * 0.8 + 0.1), roughness: 0.8, metalness: 0.1 }); const building = new THREE.Mesh(buildingGeo, buildingMat); building.position.y = height / 2; building.castShadow = true; building.receiveShadow = true; return building; }
+            for (let i = 0; i < numBuildings; i++) { const buildingLeft = createBuilding(); const buildingRight = createBuilding(); const zPos = (roadLength / 2) - (buildingSpacing / 2) - i * buildingSpacing; const xOffsetLeft = roadWidth / 2 + kerbWidth + 1 + Math.random() * 5 + buildingLeft.geometry.parameters.width / 2; const xOffsetRight = roadWidth / 2 + kerbWidth + 1 + Math.random() * 5 + buildingRight.geometry.parameters.width / 2; buildingLeft.position.set(-xOffsetLeft, buildingLeft.position.y, zPos); buildingRight.position.set(xOffsetRight, buildingRight.position.y, zPos); buildings.push(buildingLeft, buildingRight); scene.add(buildingLeft); scene.add(buildingRight); }
+            function createStreetLight() { const group = new THREE.Group(); const poleHeight = 6; const poleRadius = 0.1; const poleGeo = new THREE.CylinderGeometry(poleRadius, poleRadius, poleHeight); const poleMat = new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.8, roughness: 0.4 }); const pole = new THREE.Mesh(poleGeo, poleMat); pole.castShadow = true; pole.position.y = poleHeight/2; group.add(pole); const armLength = 1; const armGeo = new THREE.BoxGeometry(armLength, poleRadius * 1.5, poleRadius * 1.5); const arm = new THREE.Mesh(armGeo, poleMat); arm.position.set(0, poleHeight - poleRadius * 2, 0); group.add(arm); const lightFixtureGeo = new THREE.SphereGeometry(poleRadius * 2, 16, 8); const lightFixtureMat = new THREE.MeshStandardMaterial({ color: 0xffffaa, emissive: 0xffff00, emissiveIntensity: 0.5 }); const lightFixture = new THREE.Mesh(lightFixtureGeo, lightFixtureMat); lightFixture.position.set(0, poleHeight - poleRadius * 2, 0); group.add(lightFixture); group.userData.armLength = armLength; return group;}
+            for (let i = 0; i < numLights; i++) { const lightLeft = createStreetLight(); const lightRight = createStreetLight(); const zPos = (roadLength / 2) - (lightSpacing / 2) - i * lightSpacing; const xPos = roadWidth / 2 + kerbWidth + 0.8; lightLeft.position.set(-xPos, 0, zPos); lightLeft.rotation.y = Math.PI / 2; lightLeft.children[1].position.x = -lightLeft.userData.armLength / 2; lightLeft.children[2].position.x = -lightLeft.userData.armLength; lightRight.position.set(xPos, 0, zPos); lightRight.rotation.y = -Math.PI / 2; lightRight.children[1].position.x = -lightRight.userData.armLength / 2; lightRight.children[2].position.x = -lightRight.userData.armLength; streetLights.push(lightLeft, lightRight); scene.add(lightLeft); scene.add(lightRight); }
+            function createTrafficLight() { const group = new THREE.Group(); const poleHeight = 5; const poleRadius = 0.15; const poleGeo = new THREE.CylinderGeometry(poleRadius, poleRadius, poleHeight); const poleMat = new THREE.MeshStandardMaterial({ color: 0x555555, metalness: 0.7, roughness: 0.5 }); const pole = new THREE.Mesh(poleGeo, poleMat); pole.position.y = poleHeight / 2; pole.castShadow = true; group.add(pole); const housingWidth = 0.5; const housingHeight = 1.2; const housingDepth = 0.3; const housingGeo = new THREE.BoxGeometry(housingWidth, housingHeight, housingDepth); const housingMat = new THREE.MeshStandardMaterial({ color: 0x333333 }); const housing = new THREE.Mesh(housingGeo, housingMat); housing.position.y = poleHeight - housingHeight / 2; housing.castShadow = true; group.add(housing); const lightRadius = housingWidth * 0.25; const lightGeo = new THREE.SphereGeometry(lightRadius, 16, 8); const redMat = new THREE.MeshStandardMaterial({ color: 0xff0000, emissive: 0xaa0000, emissiveIntensity: 1 }); const yellowMat = new THREE.MeshStandardMaterial({ color: 0xffff00, emissive: 0xaaaa00, emissiveIntensity: 1 }); const greenMat = new THREE.MeshStandardMaterial({ color: 0x00ff00, emissive: 0x00aa00, emissiveIntensity: 1 }); const redLight = new THREE.Mesh(lightGeo, redMat); redLight.position.set(0, housingHeight * 0.3, housingDepth / 2 + 0.01); housing.add(redLight); const yellowLight = new THREE.Mesh(lightGeo, yellowMat); yellowLight.position.set(0, 0, housingDepth / 2 + 0.01); housing.add(yellowLight); const greenLight = new THREE.Mesh(lightGeo, greenMat); greenLight.position.set(0, -housingHeight * 0.3, housingDepth / 2 + 0.01); housing.add(greenLight); return group; }
+            const trafficLightLeft = createTrafficLight(); const trafficLightRight = createTrafficLight(); const trafficLightZ = roadLength * 0.4; const trafficLightX = roadWidth / 2 + kerbWidth + 0.5; trafficLightLeft.position.set(-trafficLightX, 0, trafficLightZ); trafficLightLeft.rotation.y = Math.PI / 2; trafficLightRight.position.set(trafficLightX, 0, trafficLightZ); trafficLightRight.rotation.y = -Math.PI / 2; trafficLights.push(trafficLightLeft, trafficLightRight); scene.add(trafficLightLeft); scene.add(trafficLightRight);
+
+             // --- Points Setup ---
+            pointGeometry = new THREE.SphereGeometry(pointRadius, 8, 8);
+            pointMaterial = new THREE.MeshStandardMaterial({ color: 0xffff00, emissive: 0xaaaa00, emissiveIntensity: 0.8 });
+            for (let i = 0; i < numPoints; i++) { const point = new THREE.Mesh(pointGeometry, pointMaterial); point.castShadow = true; resetPointPosition(point, true); points.push(point); scene.add(point); }
+
+            // --- Car Model Loading ---
+            const loader = new GLTFLoader(loadingManager);
+            const dracoLoader = new DRACOLoader(loadingManager);
+            dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
+            loader.setDRACOLoader(dracoLoader);
+            const carUrl = 'https://threejs.org/examples/models/gltf/ferrari.glb';
+
+            loader.load(carUrl, (gltf) => {
+                carModel = gltf.scene;
+                carModel.scale.set(0.8, 0.8, 0.8);
+                const box = new THREE.Box3().setFromObject(carModel);
+                carBaseY = -box.min.y + 0.01; // Adjusted base Y calculation
+                carModel.position.set(0, carBaseY, 0);
+                carModel.rotation.y = Math.PI;
+                carModel.traverse((node) => { if (node.isMesh) { node.castShadow = true; node.receiveShadow = true; } });
+                scene.add(carModel);
+
+                // Enemy Car Setup
+                enemyCar = carModel.clone();
+                enemyCar.traverse((node) => { if (node.isMesh) { const blueMaterial = node.material.clone(); blueMaterial.color.setHex(0x0000ff); node.material = blueMaterial; node.castShadow = true; node.receiveShadow = true; } });
+                const initialEnemyX = (Math.random() < 0.5 ? -1 : 1) * roadWidth / 4;
+                enemyCar.position.set(initialEnemyX, carBaseY, roadLength * 0.7);
+                enemyCar.rotation.y = Math.PI;
+                scene.add(enemyCar);
+                console.log("Enemy car added and colored blue");
+
+                // Set initial Camera position
+                camera.position.set(0, carBaseY + 3, -7); // Position relative to carBaseY
+                camera.lookAt(carModel.position.x, carBaseY + 1, carModel.position.z + 5); // Look relative to carBaseY
+
+            }, undefined, (error) => {
+                // Fallback (using carBaseY)
+                console.error('An error happened loading the car model:', error); const fallbackGeo = new THREE.BoxGeometry(2, 1, 4); const fallbackMat = new THREE.MeshStandardMaterial({color: 0xff0000}); carModel = new THREE.Mesh(fallbackGeo, fallbackMat); carBaseY = 0.5 + 0.01; carModel.position.set(0, carBaseY, 0); carModel.castShadow = true; carModel.receiveShadow = true; scene.add(carModel); camera.position.set(0, carBaseY + 3, -7); camera.lookAt(carModel.position.x, carBaseY + 1, carModel.position.z + 5); loadingScreen.textContent = 'Error loading car model. Displaying fallback.'; loadingScreen.classList.remove('hidden'); loadingScreen.style.opacity = 1;
+            });
+
+            // --- Resize Listener ---
+            window.addEventListener('resize', onWindowResize, false);
+            // --- Initial Score Display ---
+            updateScoreDisplay();
         }
 
-        // Update cart UI
-        function updateCart() {
-            // Save to localStorage
-            localStorage.setItem('cart', JSON.stringify(cart));
-            
-            // Update cart count
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            cartCount.textContent = totalItems;
-            
-            // Clear cart items
-            cartItems.innerHTML = '';
-            
-            // Render cart items
-            if (cart.length === 0) {
-                cartItems.innerHTML = '<p style="text-align: center; padding: 2rem;">Your cart is empty</p>';
-                cartTotal.textContent = '$0.00';
-                return;
+        // --- Function to Set Up Controls (Keyboard & Touch) ---
+        function setupControls() {
+            // Keyboard Listeners
+            window.addEventListener('keydown', (event) => {
+                if (isGameOver) return; // Ignore input if game over
+                if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') { moveLeft = true; }
+                else if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') { moveRight = true; }
+            });
+            window.addEventListener('keyup', (event) => {
+                if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') { moveLeft = false; }
+                else if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') { moveRight = false; }
+            });
+
+            // Touch Listeners for Buttons
+            const leftButton = document.getElementById('left-button');
+            const rightButton = document.getElementById('right-button');
+
+            if (leftButton) {
+                leftButton.addEventListener('touchstart', (e) => { if (!isGameOver) { e.preventDefault(); moveLeft = true; } }, { passive: false });
+                leftButton.addEventListener('touchend', (e) => { e.preventDefault(); moveLeft = false; });
+                leftButton.addEventListener('touchcancel', (e) => { e.preventDefault(); moveLeft = false; }); // Handle cancellation
             }
-            
-            let total = 0;
-            
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                
-                const cartItem = document.createElement('div');
-                cartItem.className = 'cart-item';
-                cartItem.innerHTML = `
-                    <div class="cart-item-img">
-                        <img src="https://via.placeholder.com/100x100?text=${item.image.replace(' ', '+')}" alt="${item.name}">
-                    </div>
-                    <div class="cart-item-info">
-                        <h4 class="cart-item-title">${item.name}</h4>
-                        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
-                        <div class="cart-item-actions">
-                            <button class="quantity-btn minus" data-id="${item.id}">-</button>
-                            <span class="item-quantity">${item.quantity}</span>
-                            <button class="quantity-btn plus" data-id="${item.id}">+</button>
-                            <button class="remove-item" data-id="${item.id}">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                cartItems.appendChild(cartItem);
-            });
-            
-            cartTotal.textContent = `$${total.toFixed(2)}`;
-            
-            // Add event listeners to cart buttons
-            document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = parseInt(e.target.closest('.quantity-btn').dataset.id);
-                    updateQuantity(id, -1);
-                });
-            });
-            
-            document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = parseInt(e.target.closest('.quantity-btn').dataset.id);
-                    updateQuantity(id, 1);
-                });
-            });
-            
-            document.querySelectorAll('.remove-item').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = parseInt(e.target.closest('.remove-item').dataset.id);
-                    removeFromCart(id);
-                });
-            });
+             if (rightButton) {
+                rightButton.addEventListener('touchstart', (e) => { if (!isGameOver) { e.preventDefault(); moveRight = true; } }, { passive: false });
+                rightButton.addEventListener('touchend', (e) => { e.preventDefault(); moveRight = false; });
+                rightButton.addEventListener('touchcancel', (e) => { e.preventDefault(); moveRight = false; }); // Handle cancellation
+            }
+        }
+        // --- End Setup Controls ---
+
+        function resetPointPosition(point, initial = false) {
+            const laneWidth = roadWidth / 2 - kerbWidth - pointRadius * 2;
+            point.position.x = (Math.random() * 2 - 1) * laneWidth;
+            point.position.y = pointRadius + 0.01; // Position relative to point radius
+            if (initial) { point.position.z = Math.random() * roadLength - roadLength / 2; }
+            else { point.position.z = roadLength / 2 + Math.random() * roadLength * 0.5; }
+            point.visible = true;
         }
 
-        // Update item quantity
-        function updateQuantity(productId, change) {
-            const item = cart.find(item => item.id === productId);
-            
-            if (item) {
-                item.quantity += change;
-                
-                if (item.quantity <= 0) {
-                    cart = cart.filter(item => item.id !== productId);
+        function updateScoreDisplay() { scoreElement.textContent = `Score: ${score}`; }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (isGameOver) return; // Stop updates if game over
+
+            const deltaZ = driveSpeed;
+
+            // --- Scenery Movement ---
+            roadLines.forEach(line => { line.position.z -= deltaZ; if (line.position.z < -roadLength / 2) { line.position.z += roadLength; } });
+            buildings.forEach(building => { building.position.z -= deltaZ; if (building.position.z < -roadLength / 2 - building.geometry.parameters.depth / 2) { building.position.z += roadLength + Math.random() * buildingSpacing * 2; const sideSign = Math.sign(building.position.x); const xOffset = roadWidth / 2 + kerbWidth + 1 + Math.random() * 5 + building.geometry.parameters.width / 2; building.position.x = sideSign * xOffset; } });
+            streetLights.forEach(light => { light.position.z -= deltaZ; if (light.position.z < -roadLength / 2) { light.position.z += roadLength + Math.random() * lightSpacing * 2; } });
+            trafficLights.forEach(light => { light.position.z -= deltaZ; if (light.position.z < -roadLength / 2) { light.position.z += roadLength * 1.5 + Math.random() * roadLength; } });
+            kerbs.forEach(kerb => { kerb.position.z -= deltaZ; if (kerb.position.z < -roadLength / 2) { kerb.position.z += roadLength; } }); // Simple wrap for kerbs
+
+
+             // --- Move and Recycle Points ---
+             points.forEach(point => { if (!point.visible) return; point.position.z -= deltaZ; if (point.position.z < -roadLength / 2) { resetPointPosition(point); } });
+
+             // --- Move Enemy Car ---
+             if (enemyCar) {
+                 enemyCar.position.z -= enemyCarSpeed; // Independent speed
+                 if (enemyCar.position.z < -roadLength / 2 - 10) { // Check slightly beyond edge
+                    enemyCar.position.z = roadLength / 2 + Math.random() * 50;
+                    enemyCar.position.x = (Math.random() < 0.5 ? -1 : 1) * roadWidth / 4 * (0.5 + Math.random());
+                 }
+             }
+
+             // --- Handle Player Car Controls & Update Bounding Box ---
+             if (carModel && carBaseY > 0) { // Check carBaseY to ensure model loaded somewhat
+                let maxBounds = roadWidth / 2 - kerbWidth - 0.1; // Initial bounds
+                try {
+                    // Attempt to get precise width, fallback if geometry fails
+                    const box = new THREE.Box3().setFromObject(carModel);
+                    const carWidth = box.max.x - box.min.x; // More reliable width calc
+                    const carHalfWidth = carWidth / 2;
+                    maxBounds = roadWidth / 2 - kerbWidth - carHalfWidth - 0.1; // Update with car width
+                } catch(e) {
+                    console.warn("Could not get car bounding box size, using default bounds.");
                 }
-                
-                updateCart();
-            }
+
+
+                if (moveLeft && carModel.position.x > -maxBounds) { carModel.position.x -= carMoveSpeed; }
+                if (moveRight && carModel.position.x < maxBounds) { carModel.position.x += carMoveSpeed; }
+                carModel.position.x = Math.max(-maxBounds, Math.min(maxBounds, carModel.position.x));
+
+                // Update Player Bounding Box
+                playerBox.setFromObject(carModel);
+
+                // Update Camera (smooth follow)
+                const targetCameraX = carModel.position.x * 0.5; // Camera follows less drastically than car
+                camera.position.x += (targetCameraX - camera.position.x) * 0.1;
+                camera.lookAt(carModel.position.x, carBaseY + 1, carModel.position.z + 5); // Ensure lookAt uses carBaseY
+             }
+
+             // --- Collision Detection ---
+             if (carModel) {
+                 // Point Collision
+                 points.forEach(point => { if (!point.visible) return; pointBox.setFromObject(point); if (playerBox.intersectsBox(pointBox)) { score += pointValue; updateScoreDisplay(); point.visible = false; } });
+                 // Enemy Collision
+                 if (enemyCar) { enemyBox.setFromObject(enemyCar); if (playerBox.intersectsBox(enemyBox)) { console.log("Collision with enemy!"); isGameOver = true; gameOverElement.style.display = 'block'; } }
+             }
+
+            // --- Render ---
+            renderer.render(scene, camera);
         }
 
-        // Remove item from cart
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            updateCart();
-        }
-
-        // Filter products by category
-        function filterProducts(category) {
-            if (category === 'all') {
-                renderProducts(products);
-            } else {
-                const filtered = products.filter(product => product.category === category);
-                renderProducts(filtered);
-            }
-        }
-
-        // Search products
-        function searchProducts(term) {
-            const filtered = products.filter(product => 
-                product.name.toLowerCase().includes(term.toLowerCase())
-            );
-            renderProducts(filtered);
-        }
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', () => {
-            // Render initial products
-            renderProducts(products);
-            
-            // Update cart UI
-            updateCart();
-            
-            // Cart toggle
-            cartBtn.addEventListener('click', () => {
-                cartModal.classList.add('active');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-            
-            closeCart.addEventListener('click', () => {
-                cartModal.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-            
-            overlay.addEventListener('click', () => {
-                cartModal.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-            
-            // Search functionality
-            searchInput.addEventListener('input', (e) => {
-                searchProducts(e.target.value);
-            });
-            
-            // Filter functionality
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Update active button
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    // Filter products
-                    filterProducts(btn.dataset.filter);
-                });
-            });
-        });
     </script>
 </body>
 </html>

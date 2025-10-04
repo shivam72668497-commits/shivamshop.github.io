@@ -1,0 +1,9 @@
+1. load this model instead of enemy model https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/CesiumMilkTruck/glTF-Binary/CesiumMilkTruck.glb
+
+2. in this code i want the truck model to race with car model. the loop should be finite and end check area should be made at the finish line. beside this changes dont make any changes to the code
+
+3. perfect now buildings strip lights and road should be visible on other side of the finishing line when the game ends. dont change anything beside this change in the given code
+
+4. perfect now add the soil patches on the road to decrease the speed of the model when it passes through it. make truck model and car model speed same. beside this changes dont make any changes to the given code 
+
+5. perfect now add the player tracking bar on top of the screen and also make the truck model more smart and sensible so that it dont passes through soil to prevent from being slow down and has chances to win. only make these changes to the given code.
